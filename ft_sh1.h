@@ -11,7 +11,8 @@
 # include "libft/Includes/libft.h"
 # include <stdio.h>
 # include <sys/types.h>
+# include <errno.h>
 
-
+void	env(void);
 
 #endif
