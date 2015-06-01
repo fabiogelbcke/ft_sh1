@@ -6,7 +6,7 @@
 #    By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/21 02:01:24 by fschuber          #+#    #+#              #
-#    Updated: 2014/11/23 03:56:35 by fschuber         ###   ########.fr        #
+#    Updated: 2015/06/01 16:43:13 by fschuber         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -34,7 +34,7 @@ clean:
 	@echo "\033[32mCleaned up object files.\033[0m"
 
 fclean: clean
-	@/bin/rm $(NAME)
+	@/bin/rm -f $(NAME)
 	@echo "\033[32mCleaned up compiled files.\033[0m"
 
 re: fclean all
