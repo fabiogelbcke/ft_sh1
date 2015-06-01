@@ -38,14 +38,17 @@ char		*get_env(char *var, char **envp)
 	int	i;
 	char	**envvar;
 
-	i = 0;
-	while (envp[i])
+	if (var)
 	{
-		if (!ft_strcmp(ft_strsub(envp[i], 0, ft_strlen(var)), var))
+		i = 0;
+		while (envp[i])
 		{
-			return ft_strsub(envp[i], ft_strlen(var) + 1, ft_strlen(envp[i]) - ft_strlen(var) - 1);
+			if (!ft_strcmp(ft_strsub(envp[i], 0, ft_strlen(var)), var))
+			{
+				return ft_strsub(envp[i], ft_strlen(var) + 1, ft_strlen(envp[i]) - ft_strlen(var) - 1);
+			}
+			i++;
 		}
-		i++;
 	}
 	return NULL;
 }

@@ -33,6 +33,17 @@ char			*execute(char **cmd, char **envp, char **dir)
 	return cwd;
 }
 
+void			custom_envp(char ***envpptr)
+{
+	char *str;
+	str = malloc(sizeof(char) * 1024);
+
+	set_env(envpptr, "PWD", getcwd(str, 1024));
+	set_env(envpptr, "_", ft_strjoin(str, "/ft_minishell1"));
+	set_env(envpptr, "PATH", "usr/local/bin/:usr/bin:/bin:/sbin");
+	set_env(envpptr, "HOME", "/");
+}
+
 void			builtins(char **cmd, char ***envpptr)
 {
 	if (!ft_strcmp(cmd[0], "cd"))
@@ -40,10 +51,18 @@ void			builtins(char **cmd, char ***envpptr)
 	else if (!ft_strcmp(cmd[0], "env"))
 		show_env(*envpptr);
 	else if (!ft_strcmp(cmd[0], "setenv"))
-		set_env(envpptr, cmd[1], cmd[2]);
+		if (!cmd[1])
+			show_env(*envpptr);
+		else if (!cmd[2])
+			set_env(envpptr, cmd[1], "");
+		else
+			set_env(envpptr, cmd[1], cmd[2]);
 	else if (!ft_strcmp(cmd[0], "printenv"))
 	{
-		ft_putstr(get_env(cmd[1], *envpptr));
+		if (cmd[1])
+		{
+			ft_putstr(get_env(cmd[1], *envpptr));
+		}
 		ft_putstr("\n");
 	}
 	else if (!ft_strcmp(cmd[0], "unsetenv"))
@@ -59,6 +78,8 @@ int			main(int ac, char **av, char **envp)
     char		**cmd;
 
     entry = NULL;
+	if (envp[0] == NULL)
+		custom_envp(&envp);
     ft_putstr("$> ");
     while (1)
     {
