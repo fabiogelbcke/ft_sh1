@@ -21,6 +21,13 @@ void		unset_env(char ***envpptr, char *var)
 
 	i = 0;
 	j = 0;
+	if (!var)
+	{
+		ft_putstr("unsetenv: Too few arguments.\n");
+		return ;
+	}
+	if (!get_env(var, *envpptr))
+		return ;
 	size = get_env_size(envpptr);
 	newenv = malloc(sizeof(char*) * size + 1);
 	while((*envpptr)[i])
