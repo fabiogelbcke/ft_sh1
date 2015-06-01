@@ -2,15 +2,15 @@ CC = gcc
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC =	ft_ls.c \
-	list_management.c \
-	print_long.c \
+SRC =		ft_sh1.c \
+		utils.c \
+		cd.c \
 
 OBJ	= $(SRC:.c=.o)
 
 LIB 	= libft/libft.a
 
-NAME = ft_ls
+NAME = ft_sh1
 
 all:		$(NAME)
 

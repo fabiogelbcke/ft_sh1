@@ -14,5 +14,10 @@
 # include <errno.h>
 
 void	env(void);
+char	*get_env(char *var, char **envp);
+void	cd(char *path, char **envp);
+void	show_env(char **envp);
+void	set_env(char ***envpptr, char *var, char *value);
+void	unset_env(char ***envpptr, char *var);
 
 #endif
