@@ -41,7 +41,7 @@ char		*get_env(char *var, char **envp)
 	if (var)
 	{
 		i = 0;
-		while (envp[i])
+		while (envp[i] != NULL)
 		{
 			if (!ft_strcmp(ft_strsub(envp[i], 0, ft_strlen(var)), var))
 			{

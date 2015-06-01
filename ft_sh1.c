@@ -46,6 +46,8 @@ void			custom_envp(char ***envpptr)
 
 void			builtins(char **cmd, char ***envpptr)
 {
+	char *str;
+
 	if (!ft_strcmp(cmd[0], "cd"))
 		cd(cmd[1], *envpptr);
 	else if (!ft_strcmp(cmd[0], "env"))
@@ -61,9 +63,14 @@ void			builtins(char **cmd, char ***envpptr)
 	{
 		if (cmd[1])
 		{
-			ft_putstr(get_env(cmd[1], *envpptr));
+			str = get_env(cmd[1], *envpptr);
+			if (str)
+			{
+				ft_putstr("porra");
+				ft_putstr(str);
+				ft_putstr("\n");
+			}
 		}
-		ft_putstr("\n");
 	}
 	else if (!ft_strcmp(cmd[0], "unsetenv"))
 		unset_env(envpptr, cmd[1]);
