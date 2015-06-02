@@ -3,7 +3,15 @@
 void			cd(char *path, char **envp)
 {
 	if (!path)
-		path = get_env("HOME", envp);
+		if (get_env("HOME", envp))
+			path = get_env("HOME", envp);
+		else
+		{
+			ft_putstr("HOME variable not set\n");
+			return ;
+		}
+	else if (path[0] == '~' && (!path[1] || path[1] == '/'))
+		path = ft_strjoin(get_env("HOME", envp), &(path[1]));
 	if (chdir(path) == -1)
-		ft_putstr(strerror(errno));
+		ft_putstr("No such file or directory\n");
 }

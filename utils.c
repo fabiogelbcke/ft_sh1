@@ -18,6 +18,7 @@ void		unset_env(char ***envpptr, char *var)
 	char **newenv;
 	int i;
 	int j;
+	char **split;
 
 	i = 0;
 	j = 0;
@@ -32,9 +33,12 @@ void		unset_env(char ***envpptr, char *var)
 	newenv = malloc(sizeof(char*) * size + 1);
 	while((*envpptr)[i])
 	{
-		if (ft_strcmp(ft_strsub((*envpptr)[i], 0, ft_strlen(var)), var))
+		split = ft_strsplit((*envpptr)[i], '=');
+		if (ft_strcmp(split[0], var))
 			newenv[j++] = ft_strdup((*envpptr)[i]);
 		i++;
+		free(split);
+		split = NULL;
 	}
 	newenv[j] = NULL;
 	*envpptr = newenv;
@@ -44,16 +48,20 @@ char		*get_env(char *var, char **envp)
 {
 	int	i;
 	char	**envvar;
+	char	**split;
 
 	if (var)
 	{
 		i = 0;
 		while (envp[i] != NULL)
 		{
-			if (!ft_strcmp(ft_strsub(envp[i], 0, ft_strlen(var)), var))
+			split = ft_strsplit(envp[i], '=');
+			if (!ft_strcmp(split[0], var))
 			{
-				return ft_strsub(envp[i], ft_strlen(var) + 1, ft_strlen(envp[i]) - ft_strlen(var) - 1);
+				return split[1];
 			}
+			free(split);
+			split = NULL;
 			i++;
 		}
 	}
@@ -77,12 +85,14 @@ void		set_env(char ***envpptr, char *var, char *value)
 {
 	int i;
 	char **newenv;
+	char **split;
 
 	i = 0;
 	if (get_env(var, *envpptr))
 		while ((*envpptr)[i])
 		{
-			if (!ft_strcmp(ft_strsub((*envpptr)[i], 0, ft_strlen(var)), var))
+			split = ft_strsplit((*envpptr)[i], '=');
+			if (!ft_strcmp(split[0], var))
 			{
 				(*envpptr)[i] = ft_strjoin(var, "=");
 				(*envpptr)[i] = ft_strjoin((*envpptr)[i], value);

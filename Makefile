@@ -1,6 +1,6 @@
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 
 SRC =		ft_sh1.c \
 		utils.c \

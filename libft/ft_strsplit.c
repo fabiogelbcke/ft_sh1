@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "Includes/libft.h"
 
-static int	numberofwords(char const *s, char c)
+int	numberofwords(char const *s, char c)
 {
 	int		i;
 	int		n;
@@ -28,11 +29,11 @@ static int	numberofwords(char const *s, char c)
 	return (n);
 }
 
-static int	getsize(int *i, const char *s, char c, int size)
+int	getsize(int *i, const char *s, char c, int size)
 {
-	while (s[*i] == c)
+	while (s [*i] && s[*i] == c)
 		(*i)++;
-	while (s[*i + size] != c && s[*i + size])
+	while (s[*i + size] && s[*i + size] != c)
 		size++;
 	return (size);
 }
@@ -53,8 +54,11 @@ char		**ft_strsplit(char const *s, char c)
 		return (NULL);
 	while (k < numberofwords(s, c))
 	{
+		size = 0;
 		size = getsize(&i, s, c, size);
 		table[k] = (char*)malloc((size + 1) * sizeof(char));
+		if (!table[k])
+			return (NULL);
 		i--;
 		size = 0;
 		while (s[++i] != c && s[i])

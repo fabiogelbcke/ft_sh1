@@ -53,7 +53,9 @@ void			builtins(char **cmd, char ***envpptr)
 	else if (!ft_strcmp(cmd[0], "env"))
 		show_env(*envpptr);
 	else if (!ft_strcmp(cmd[0], "setenv"))
-		if (!cmd[1])
+		if (cmd[3])
+			ft_putstr("setenv: Too many arguments.\n");
+		else if (!cmd[1])
 			show_env(*envpptr);
 		else if (!cmd[2])
 			set_env(envpptr, cmd[1], "");
@@ -61,16 +63,20 @@ void			builtins(char **cmd, char ***envpptr)
 			set_env(envpptr, cmd[1], cmd[2]);
 	else if (!ft_strcmp(cmd[0], "printenv"))
 	{
-		if (cmd[1])
+		if (cmd[2])
+			ft_putstr("printenv: Too many arguments.\n");
+		else if (cmd[1])
 		{
 			str = get_env(cmd[1], *envpptr);
 			if (str)
 			{
-				ft_putstr("porra");
 				ft_putstr(str);
 				ft_putstr("\n");
 			}
+			ft_strdel(&str);
 		}
+		else
+			show_env(*envpptr);
 	}
 	else if (!ft_strcmp(cmd[0], "unsetenv"))
 		unset_env(envpptr, cmd[1]);
