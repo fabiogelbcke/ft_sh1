@@ -4,6 +4,7 @@ FLAGS = -g -Wall -Wextra -Werror
 
 SRC =		ft_sh1.c \
 		utils.c \
+		utils2.c \
 		cd.c \
 
 OBJ	= $(SRC:.c=.o)

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/06/07 18:17:25 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 18:18:24 by fschuber         ###   ########.fr       */
+/*   Created: 2015/06/07 18:49:42 by fschuber          #+#    #+#             */
+/*   Updated: 2015/06/07 19:24:30 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
 
-void			cd(char *path, char **envp)
+int is_builtin(char *str)
 {
-	if (!path)
-		if (get_env("HOME", envp))
-			path = get_env("HOME", envp);
-		else
-		{
-			ft_putstr("HOME variable not set\n");
-			return ;
-		}
-	else if (path[0] == '~' && (!path[1] || path[1] == '/'))
-		path = ft_strjoin(get_env("HOME", envp), &(path[1]));
-	if (chdir(path) == -1)
-		ft_putstr("No such file or directory\n");
+	if (!ft_strcmp(str, "cd")  || !ft_strcmp(str, "env"))
+		return (1);
+	if (!ft_strcmp(str, "setenv") || !ft_strcmp(str, "unsetenv"))
+		return (1);
+	if (!ft_strcmp(str, "printenv"))
+		return (1);
+	return (0);
+}
+
+int cancel_color(void)
+{
+	ft_putstr("\x1b[0m");
+	return (0);
 }
