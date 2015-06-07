@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:18:52 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 20:45:42 by fschuber         ###   ########.fr       */
+/*   Updated: 2015/06/07 20:55:31 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include "libft/Includes/libft.h"
 # include <stdio.h>
 # include <sys/types.h>
-# include <errno.h>
 
 void	env(void);
 char	*get_env(char *var, char **envp);
