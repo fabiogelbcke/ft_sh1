@@ -82,6 +82,24 @@ void			builtins(char **cmd, char ***envpptr)
 		unset_env(envpptr, cmd[1]);
 }
 
+void			color_me(char *str)
+{
+	if (!ft_strcmp("blue", str))
+		ft_putstr("\x1b[34m");
+	else if (!ft_strcmp("red", str))
+		ft_putstr("\x1b[31m");
+	else if (!ft_strcmp("yellow", str))
+		ft_putstr("\x1b[33m");
+	else if (!ft_strcmp("green", str))
+		ft_putstr("\x1b[32m");
+	else if (ft_strcmp("black", str))
+	{
+		ft_putstr("Sorry, the color ");
+		ft_putstr(str);
+		ft_putstr(" is not available\n");
+	}
+}
+
 int			main(int ac, char **av, char **envp)
 {
     pid_t		pid;
@@ -89,18 +107,28 @@ int			main(int ac, char **av, char **envp)
     int			status;
     char		*dir;
     char		**cmd;
+    char		**entries;
 
     entry = NULL;
-	if (envp[0] == NULL)
-		custom_envp(&envp);
+    if (envp[0] == NULL)
+	    custom_envp(&envp);
+    if (ac == 2)
+	    color_me(av[1]);
     ft_putstr("$> ");
     while (1)
     {
 	entry = get_entry();
 	entry[ft_strlen(entry) - 1] = '\0';
-	cmd = ft_strsplit(entry, ' ');
+	entries = ft_strsplit(entry, ';');
+	int i = 0;
+	while (entries[i])
+	{
+	cmd = ft_strsplit(entries[i], ' ');
 	if (!ft_strcmp(cmd[0], "exit"))
+	{
+		ft_putstr("\x1b[0m");
 		return (0);
+	}
 	pid = fork();
 	if (pid >= 0)
 	    if (pid > 0)
@@ -108,7 +136,8 @@ int			main(int ac, char **av, char **envp)
 		    wait(&status);
 		    if (status == 1024)
 			    builtins(cmd, &envp);
-		    ft_putstr("$> ");
+		    if (entries[i + 1] == NULL)
+			    ft_putstr("$> ");
 	    }
 	    else
 		    if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "env") || !ft_strcmp(cmd[0], "setenv") || !ft_strcmp(cmd[0], "unsetenv") || !ft_strcmp(cmd[0], "printenv"))
@@ -124,6 +153,8 @@ int			main(int ac, char **av, char **envp)
 			    exit(2);
 	else
 		exit(1);
+	i++;
+	}
     }
     return (0);
 }
