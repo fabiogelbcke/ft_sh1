@@ -6,6 +6,7 @@ The goal is to build a small shell in C, that gets uses the system's environment
 -It should have a prompt ("$>") and show it everytime after the previous commands are done running, not before.
 -Errors must be managed without errno
 -as always no globals
+- should create custom env if no environment is available (e.g. if its run using 'env -i ./minishell1'
 
 Allowed functions:
 
