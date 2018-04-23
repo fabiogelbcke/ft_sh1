@@ -1,30 +1,62 @@
+#******************************************************************************#
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fschuber <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/04/23 12:50:23 by fschuber          #+#    #+#              #
+#    Updated: 2018/04/23 13:07:33 by fschuber         ###   ########.fr        #
+#                                                                              #
+#******************************************************************************#
+
 CC = gcc
 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
-SRC =		ft_sh1.c \
+NAME = minishell
+
+FILES =	ft_sh1.c \
 		utils.c \
 		utils2.c \
 		cd.c \
 
-OBJ	= $(SRC:.c=.o)
+F_DIR = srcs
+SRCS = $(addprefix $(F_DIR)/, $(FILES))
 
-LIB 	= libft/libft.a
+O_DIR = objs
+OBJS = $(addprefix $(O_DIR)/, $(FILES:.c=.o))
 
-NAME = ft_sh1
+HEADER = ft_sh1.h
+H_DIR = Includes
+INC = $(addprefix $(H_DIR)/, $(HEADER))
+INCLUDE = -I $(L_DIR) -I $(H_DIR)
 
-all:		$(NAME)
+L_DIR = libft
+LIB = libft/libft.a
+LIBLINK = -L ./$(L_DIR) -lft
 
-$(NAME):	$(OBJ)
-	$(MAKE) -C ./libft
-	$(CC) -o $(NAME) $(FLAGS) $(OBJ) $(LIB)
+all: libft $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(FLAGS) -o $@ $(OBJS) $(LIBLINK)
+
+$(O_DIR)/%.o: $(F_DIR)/%.c $(INC)
+	@mkdir -p $(O_DIR)
+	@$(CC) $(FLAGS) $(INCLUDE) -c -o $@ $<
+	@echo "Creation de "$@" OK"
+
+libft:
+	@make -C $(L_DIR)
 
 clean:
 	rm -f $(OBJ)
+	$(MAKE) -C ./libft clean
 
 fclean:	clean
 	rm -f $(NAME)
+	$(MAKE) -C ./libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

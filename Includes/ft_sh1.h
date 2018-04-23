@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:18:52 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 20:55:31 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/23 13:00:00 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include "libft/Includes/libft.h"
+# include "../libft/Includes/libft.h"
 # include <stdio.h>
 # include <sys/types.h>
 
 void	env(void);
 char	*get_env(char *var, char **envp);
-void	cd(char *path, char **envp);
+void	cd(char *path, char ***envpptr);
 void	show_env(char **envp);
 void	set_env(char ***envpptr, char *var, char *value);
 void	unset_env(char ***envpptr, char *var);

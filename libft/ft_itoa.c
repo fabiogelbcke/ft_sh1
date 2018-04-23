@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 static void		numtostr(char **strptr, long int n, long int size)
 {
@@ -27,7 +27,6 @@ static void		numtostr(char **strptr, long int n, long int size)
 		str[0] = '0';
 		return ;
 	}
-	str[size] = '\0';
 	while (n > 0)
 	{
 		str[size - 1] = '0' + (char)(n % 10);
@@ -56,7 +55,7 @@ char			*ft_itoa(int n)
 	}
 	if (n == 0)
 		size = 1;
-	str = (char*)malloc(sizeof(char) * size + 1);
+	str = ft_memalloc((size + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	numtostr(&str, n, size);

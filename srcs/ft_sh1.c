@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:44:12 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 20:51:28 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/23 13:02:38 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char				**get_entry(void)
 {
 	int			n;
 	char		*str;
-	int			size;
 	char		**entries;
 
 	n = 1;
@@ -77,10 +76,8 @@ void				custom_envp_color(int ac, char **av,
 
 void				builtins(char **cmd, char ***envpptr)
 {
-	char			*str;
-
 	if (!ft_strcmp(cmd[0], "cd"))
-		cd(cmd[1], *envpptr);
+		cd(cmd[1], envpptr);
 	else if (!ft_strcmp(cmd[0], "env"))
 		show_env(*envpptr);
 	else if (!ft_strcmp(cmd[0], "setenv"))
@@ -105,12 +102,11 @@ void				builtins(char **cmd, char ***envpptr)
 
 int					main(int ac, char **av, char **envp)
 {
-	pid_t			pid;
-	int				status;
 	char			**cmd;
 	char			**entries;
 
 	custom_envp_color(ac, av, envp[0], &envp);
+	entries = NULL;
 	while (1)
 	{
 		if (!entries || (!*(entries)))

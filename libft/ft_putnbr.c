@@ -12,14 +12,11 @@
 
 #include "libft.h"
 
-void ft_putnbr(int n)
+void		ft_putnbr(int n)
 {
-	char *str;
+	char	*str;
 
 	str = ft_itoa(n);
-	while (*str)
-	{
-		write(1, str, 1);
-		str++;
-	}
+	ft_putstr(str);
+	free(str);
 }

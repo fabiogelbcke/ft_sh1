@@ -3,54 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nhuber <nhuber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/09/01 14:26:39 by fschuber          #+#    #+#             */
-/*   Updated: 2014/11/28 19:24:19 by fschuber         ###   ########.fr       */
+/*   Created: 2016/02/24 11:16:59 by nhuber            #+#    #+#             */
+/*   Updated: 2017/03/02 21:55:50 by nhuber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		isspace(char c)
+int	ft_atoi(const char *str)
 {
-	if (c == '\n' || c == ' ' || c == '\v' ||
-			c == '\t' || c == '\r' || c == '\f')
-		return (1);
-	return (0);
-}
+	unsigned int	i;
+	int				result;
+	int				sign;
 
-static void		changevalues(long int *num, long int *factor, char *ptr)
-{
-	*num = (*num) + ((*ptr - 48) * (*factor));
-	*factor = (*factor) * 10;
-}
-
-int				ft_atoi(const char *str)
-{
-	char		*ptr;
-	long int	num;
-	long int	factor;
-	int			isneg;
-
-	if (!str)
-		return (0);
-	ptr = (char*)str;
-	num = 0;
-	factor = 1;
-	isneg = 1;
-	while (isspace(*ptr))
-		ptr++;
-	if (*ptr == '-' || *ptr == '+')
+	sign = 1;
+	result = 0;
+	i = 0;
+	while (str[i] == '\n' || str[i] == '\t' || str[i] == '\r' || str[i] == ' '
+			|| str[i] == '\f' || str[i] == '\v')
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (ft_isdigit(str[i]))
 	{
-		if (*ptr == '-')
-			isneg = -1;
-		ptr++;
+		result = result * 10 + (str[i] - '0');
+		i++;
 	}
-	while (*ptr >= 48 && *ptr <= 57)
-		ptr++;
-	ptr--;
-	while (*ptr >= 48 && *ptr <= 57)
-		changevalues(&num, &factor, ptr--);
-	return (num * isneg);
+	return (result * sign);
 }

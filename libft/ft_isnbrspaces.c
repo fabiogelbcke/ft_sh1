@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_isnbrspaces.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/23 03:07:37 by fschuber          #+#    #+#             */
-/*   Updated: 2014/11/28 19:36:17 by fschuber         ###   ########.fr       */
+/*   Created: 2014/11/18 04:46:28 by fschuber          #+#    #+#             */
+/*   Updated: 2014/11/28 19:26:26 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void		ft_putstr_fd(char const *s, int fd)
+int	ft_isnbrspaces(char *str)
 {
-	char	*ptr;
-	int		size;
-
-	size = 0;
-	ptr = (char*)s;
-	while (*(ptr++))
-		size++;
-	write(fd, s, size);
+	while (*str)
+	{
+		if ((*str < 48 || *str > 57) && *str != 32)
+			return (0);
+		else
+			str++;
+	}
+	return (1);
 }

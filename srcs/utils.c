@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:19:13 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 20:36:54 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/23 13:02:54 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void		unset_env(char ***envpptr, char *var)
 char		*get_env(char *var, char **envp)
 {
 	int		i;
-	char	**envvar;
 	char	**split;
 
 	if (var)
@@ -107,7 +106,7 @@ void		set_env(char ***envpptr, char *var, char *value)
 		}
 	else
 	{
-		newenv = malloc ((get_env_size(envpptr) + 2) * sizeof(char *));
+		newenv = (char**)malloc((get_env_size(envpptr) + 2) * sizeof(char *));
 		while ((*envpptr)[++i])
 			newenv[i] = ft_strdup((*envpptr)[i]);
 		newenv[i] = ft_strjoin(ft_strjoin(var, "="), value);

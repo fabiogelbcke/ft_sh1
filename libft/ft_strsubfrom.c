@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strsubfrom.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/23 03:07:37 by fschuber          #+#    #+#             */
-/*   Updated: 2014/11/28 19:36:17 by fschuber         ###   ########.fr       */
+/*   Created: 2014/11/17 20:50:00 by fschuber          #+#    #+#             */
+/*   Updated: 2014/11/28 20:35:24 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
-void		ft_putstr_fd(char const *s, int fd)
+char	*ft_strsubfrom(char const *s, unsigned int start)
 {
-	char	*ptr;
-	int		size;
+	size_t		length;
+	char		*out;
 
-	size = 0;
-	ptr = (char*)s;
-	while (*(ptr++))
-		size++;
-	write(fd, s, size);
+	if (s == NULL)
+		return (NULL);
+	length = ft_strlen(s);
+	out = NULL;
+	if (start >= length)
+		return (NULL);
+	out = (char*)malloc(sizeof(char) * (length + 1 - start));
+	if (out)
+	{
+		out = ft_strncpy(out, s + start, length - start);
+		out[length - start] = '\0';
+	}
+	return (out);
 }

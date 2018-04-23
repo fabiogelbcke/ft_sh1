@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strarr_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/23 03:07:37 by fschuber          #+#    #+#             */
-/*   Updated: 2014/11/28 19:36:17 by fschuber         ###   ########.fr       */
+/*   Created: 2017/01/23 17:49:50 by fschuber          #+#    #+#             */
+/*   Updated: 2017/03/06 12:28:50 by nhuber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_putstr_fd(char const *s, int fd)
+int		ft_strarr_len(char **strarr)
 {
-	char	*ptr;
-	int		size;
+	int i;
 
-	size = 0;
-	ptr = (char*)s;
-	while (*(ptr++))
-		size++;
-	write(fd, s, size);
+	i = 0;
+	while (strarr && strarr[i])
+		i++;
+	return (i);
 }
