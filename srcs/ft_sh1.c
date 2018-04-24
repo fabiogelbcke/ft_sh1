@@ -32,6 +32,7 @@ void				execute(char **entries, char **cmd, char **envp)
 	char			**paths;
 	int				i;
 	int				j;
+	char			*tmp;
 
 	if (is_builtin(cmd[0]))
 		exit(4);
@@ -39,10 +40,15 @@ void				execute(char **entries, char **cmd, char **envp)
 	{
 		i = 0;
 		j = -1;
-		paths = ft_strsplit(get_env("PATH", envp), ':');
+		tmp = get_env("PATH", envp);
+		paths = ft_strsplit(tmp, ':');
+		free(tmp);
 		while (paths && paths[i])
-			j = execve(ft_strjoin(ft_strjoin(paths[i++], "/"), cmd[0])
-					, cmd, envp);
+			j = execve(
+				ft_strappend_free(
+					ft_strjoin(paths[i++], "/"),
+					ft_strdup(cmd[0]))
+				, cmd, envp);
 		ft_free_strarr(paths);
 		if (j == -1 && execve(cmd[0], cmd, envp) != -1)
 		{
