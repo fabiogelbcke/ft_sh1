@@ -44,11 +44,13 @@ void				execute(char **entries, char **cmd, char **envp)
 		paths = ft_strsplit(tmp, ':');
 		free(tmp);
 		while (paths && paths[i])
-			j = execve(
-				ft_strappend_free(
+		{
+			tmp = ft_strappend_free(
 					ft_strjoin(paths[i++], "/"),
-					ft_strdup(cmd[0]))
-				, cmd, envp);
+					ft_strdup(cmd[0]));
+			j = execve(tmp, cmd, envp);
+			free(tmp);
+		}
 		ft_free_strarr(paths);
 		if (j == -1 && execve(cmd[0], cmd, envp) != -1)
 		{
