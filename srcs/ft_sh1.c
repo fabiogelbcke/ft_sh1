@@ -40,7 +40,7 @@ void				execute(char **entries, char **cmd, char **envp)
 		i = 0;
 		j = -1;
 		paths = ft_strsplit(get_env("PATH", envp), ':');
-		while (paths[i])
+		while (paths && paths[i])
 			j = execve(ft_strjoin(ft_strjoin(paths[i++], "/"), cmd[0])
 					, cmd, envp);
 		ft_free_strarr(paths);
