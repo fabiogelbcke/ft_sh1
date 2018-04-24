@@ -38,12 +38,13 @@ void				execute(char **entries, char **cmd, char **envp)
 	if (*entries && ft_strlen(*entries) > 0)
 	{
 		i = 0;
-		j = 0;
+		j = -1;
 		paths = ft_strsplit(get_env("PATH", envp), ':');
 		while (paths[i])
 			j = execve(ft_strjoin(ft_strjoin(paths[i++], "/"), cmd[0])
 					, cmd, envp);
-		if (j == -1)
+		ft_free_strarr(paths);
+		if (j == -1 && execve(cmd[0], cmd, envp) != -1)
 		{
 			ft_putstr(cmd[0]);
 			ft_putstr(": command not found\n");
