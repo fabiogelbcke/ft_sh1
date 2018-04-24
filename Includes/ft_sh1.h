@@ -36,5 +36,6 @@ void	builtins(char **cmd, char ***envpptr);
 void	execute(char **entries, char **cmd, char **envp);
 int		is_builtin(char *str);
 int		cancel_color(void);
+int		get_env_size(char ***envpptr);
 
 #endif

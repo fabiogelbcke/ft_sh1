@@ -14,22 +14,16 @@
 
 char				**get_entry(void)
 {
-	int			n;
 	char		*str;
 	char		**entries;
+	int			n;
 
-	n = 1;
 	str = malloc(sizeof(char) * BUFF_SIZE);
 	n = read(0, str, BUFF_SIZE);
-	str[ft_strlen(str) - 1] = '\0';
+	if (n > 0)
+		str[n - 1] = '\0';
 	entries = ft_strsplit(str, ';');
-	if (entries[0] == NULL)
-	{
-		entries = malloc(sizeof(char*) * 2);
-		entries[0] = malloc(sizeof(char) * 2);
-		entries[0] = NULL;
-		entries[1] = NULL;
-	}
+	free(str);
 	return (entries);
 }
 
@@ -48,7 +42,7 @@ void				execute(char **entries, char **cmd, char **envp)
 		paths = ft_strsplit(get_env("PATH", envp), ':');
 		while (paths[i])
 			j = execve(ft_strjoin(ft_strjoin(paths[i++], "/"), cmd[0])
-					, cmd, NULL);
+					, cmd, envp);
 		if (j == -1)
 		{
 			ft_putstr(cmd[0]);
@@ -70,6 +64,8 @@ void				custom_envp_color(int ac, char **av,
 		set_env(envpptr, "_", ft_strjoin(str, "/ft_minishell1"));
 		set_env(envpptr, "PATH", "usr/local/bin/:usr/bin:/bin:/sbin");
 		set_env(envpptr, "HOME", "/");
+		set_env(envpptr, "TERM", "xterm");
+		free(str);
 	}
 	color_me(ac, av);
 }
@@ -81,8 +77,8 @@ void				builtins(char **cmd, char ***envpptr)
 	else if (!ft_strcmp(cmd[0], "env"))
 		show_env(*envpptr);
 	else if (!ft_strcmp(cmd[0], "setenv"))
-		if (cmd[3])
-			ft_putstr("setenv: Too many arguments.\n");
+		if (ft_strarr_len(cmd) != 3)
+			ft_putstr("setenv: Must provide 2 arguments.\n");
 		else if (!cmd[1])
 			show_env(*envpptr);
 		else if (!cmd[2])
@@ -100,11 +96,30 @@ void				builtins(char **cmd, char ***envpptr)
 		unset_env(envpptr, cmd[1]);
 }
 
+char				**copy_env(char **envp){
+	char			**newenv;
+	int				i;
+
+	if (!envp)
+		return (NULL);
+	newenv = (char**)malloc((get_env_size(&envp) + 1) * sizeof(char *));
+	i = 0;
+	while (envp[i])
+	{
+		newenv[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	newenv[i] = NULL;
+	return (newenv);
+}
+
 int					main(int ac, char **av, char **envp)
 {
 	char			**cmd;
 	char			**entries;
+	int				i;
 
+	envp = copy_env(envp);
 	custom_envp_color(ac, av, envp[0], &envp);
 	entries = NULL;
 	while (1)
@@ -112,14 +127,21 @@ int					main(int ac, char **av, char **envp)
 		if (!entries || (!*(entries)))
 			ft_putstr("$> ");
 		entries = get_entry();
-		while (*entries)
+		i = -1;
+		while (entries[++i])
 		{
-			cmd = ft_strsplit(*entries, ' ');
-			if (!ft_strcmp(cmd[0], "exit"))
+			cmd = ft_split_spaces(entries[i]);
+			if (!cmd || !cmd[0])
+				break;
+			if (!ft_strcmp(cmd[0], "exit")){
+				ft_free_strarr(envp);
 				return (cancel_color());
+			}
 			handle_process(cmd, &envp, entries);
-			entries++;
+			ft_free_strarr(cmd);
 		}
+		ft_free_strarr(entries);
+		entries = NULL;
 	}
 	return (0);
 }

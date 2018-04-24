@@ -28,6 +28,7 @@ void		unset_env(char ***envpptr, char *var)
 	int		i;
 	int		j;
 	char	**split;
+	char	*tmp;
 
 	i = -1;
 	j = 0;
@@ -36,18 +37,20 @@ void		unset_env(char ***envpptr, char *var)
 		ft_putstr("unsetenv: Too few arguments.\n");
 		return ;
 	}
-	if (!get_env(var, *envpptr))
+	if (!(tmp = get_env(var, *envpptr)))
 		return ;
+	free(tmp);
 	newenv = malloc(sizeof(char*) * (get_env_size(envpptr) + 1));
 	while ((*envpptr)[++i])
 	{
 		split = ft_strsplit((*envpptr)[i], '=');
 		if (ft_strcmp(split[0], var))
 			newenv[j++] = ft_strdup((*envpptr)[i]);
-		free(split);
+		ft_free_strarr(split);
 		split = NULL;
 	}
 	newenv[j] = NULL;
+	ft_free_strarr(*envpptr);
 	*envpptr = newenv;
 }
 
@@ -55,6 +58,7 @@ char		*get_env(char *var, char **envp)
 {
 	int		i;
 	char	**split;
+	char	*tmp;
 
 	if (var)
 	{
@@ -64,10 +68,11 @@ char		*get_env(char *var, char **envp)
 			split = ft_strsplit(envp[i], '=');
 			if (!ft_strcmp(split[0], var))
 			{
-				return (split[1]);
+				tmp = ft_strdup(split[1]);
+				ft_free_strarr(split);
+				return (tmp);
 			}
-			free(split);
-			split = NULL;
+			ft_free_strarr(split);
 			i++;
 		}
 	}
@@ -92,25 +97,35 @@ void		set_env(char ***envpptr, char *var, char *value)
 	int		i;
 	char	**newenv;
 	char	**split;
+	char	*tmp;
 
 	i = -1;
-	if (get_env(var, *envpptr))
+	if ((tmp = get_env(var, *envpptr)))
+	{
+		free(tmp);
 		while ((*envpptr)[++i])
 		{
 			split = ft_strsplit((*envpptr)[i], '=');
 			if (!ft_strcmp(split[0], var))
 			{
-				(*envpptr)[i] = ft_strjoin(ft_strjoin(var, "="), value);
+				free((*envpptr)[i]);
+				(*envpptr)[i] = ft_strappend_free(ft_strdup(var), ft_strdup("="));
+				(*envpptr)[i] = ft_strappend_free((*envpptr)[i], ft_strdup(value));
+				ft_free_strarr(split);
 				return ;
 			}
+			ft_free_strarr(split);
 		}
+	}
 	else
 	{
 		newenv = (char**)malloc((get_env_size(envpptr) + 2) * sizeof(char *));
 		while ((*envpptr)[++i])
 			newenv[i] = ft_strdup((*envpptr)[i]);
-		newenv[i] = ft_strjoin(ft_strjoin(var, "="), value);
+		newenv[i] = ft_strappend_free(ft_strdup(var), ft_strdup("="));
+		newenv[i] = ft_strappend_free(newenv[i], ft_strdup(value));
 		newenv[i + 1] = NULL;
+		ft_free_strarr(*envpptr);
 		*envpptr = newenv;
 	}
 }

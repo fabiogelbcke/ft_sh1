@@ -20,7 +20,6 @@ SRC =	ft_arrlen.c \
 	ft_bzero.c \
 	ft_cmpnocase.c \
 	ft_free_strarr.c \
-	ft_gnl.c \
 	ft_isalnum.c \
 	ft_isalpha.c \
 	ft_isascii.c \

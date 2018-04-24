@@ -31,12 +31,12 @@ void				*ft_memmove(void *dst, const void *src, size_t len)
 		i++;
 	}
 	i = 0;
-	ptr = (unsigned char*)src;
 	ptrdst = (unsigned char*)dst;
 	while (i < (int)len)
 	{
 		ptrdst[i] = temp[i];
 		i++;
 	}
+	free(temp);
 	return (dst);
 }
