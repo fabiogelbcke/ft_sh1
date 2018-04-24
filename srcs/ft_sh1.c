@@ -136,6 +136,8 @@ int					main(int ac, char **av, char **envp)
 				break;
 			if (!ft_strcmp(cmd[0], "exit")){
 				ft_free_strarr(envp);
+				ft_free_strarr(cmd);
+				ft_free_strarr(entries);
 				return (cancel_color());
 			}
 			handle_process(cmd, &envp, entries);
