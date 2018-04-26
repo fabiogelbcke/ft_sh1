@@ -6,26 +6,11 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:44:12 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/23 13:02:38 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:28:29 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
-
-char				**get_entry(void)
-{
-	char		*str;
-	char		**entries;
-	int			n;
-
-	str = malloc(sizeof(char) * BUFF_SIZE);
-	n = read(0, str, BUFF_SIZE);
-	if (n > 0)
-		str[n - 1] = '\0';
-	entries = ft_strsplit(str, ';');
-	free(str);
-	return (entries);
-}
 
 void				execute(char **entries, char **cmd, char **envp)
 {
@@ -44,13 +29,7 @@ void				execute(char **entries, char **cmd, char **envp)
 		paths = ft_strsplit(tmp, ':');
 		free(tmp);
 		while (paths && paths[i])
-		{
-			tmp = ft_strappend_free(
-					ft_strjoin(paths[i++], "/"),
-					ft_strdup(cmd[0]));
-			j = execve(tmp, cmd, envp);
-			free(tmp);
-		}
+			j = run_command(paths[i++], cmd, envp);
 		ft_free_strarr(paths);
 		if (j == -1 && execve(cmd[0], cmd, envp) != -1)
 		{
@@ -105,7 +84,8 @@ void				builtins(char **cmd, char ***envpptr)
 		unset_env(envpptr, cmd[1]);
 }
 
-char				**copy_env(char **envp){
+char				**copy_env(char **envp)
+{
 	char			**newenv;
 	int				i;
 
@@ -130,8 +110,7 @@ int					main(int ac, char **av, char **envp)
 
 	envp = copy_env(envp);
 	custom_envp_color(ac, av, envp[0], &envp);
-	entries = NULL;
-	while (1)
+	while ((entries = NULL))
 	{
 		if (!entries || (!*(entries)))
 			ft_putstr("$> ");
@@ -141,18 +120,13 @@ int					main(int ac, char **av, char **envp)
 		{
 			cmd = ft_split_spaces(entries[i]);
 			if (!cmd || !cmd[0])
-				break;
-			if (!ft_strcmp(cmd[0], "exit")){
-				ft_free_strarr(envp);
-				ft_free_strarr(cmd);
-				ft_free_strarr(entries);
-				return (cancel_color());
-			}
+				break ;
+			if (!ft_strcmp(cmd[0], "exit"))
+				return (cancel_color_free_shit(envp, cmd, entries));
 			handle_process(cmd, &envp, entries);
 			ft_free_strarr(cmd);
 		}
 		ft_free_strarr(entries);
-		entries = NULL;
 	}
 	return (0);
 }

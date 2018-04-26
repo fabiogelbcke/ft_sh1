@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:49:42 by fschuber          #+#    #+#             */
-/*   Updated: 2015/06/07 20:53:57 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:14:39 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ int			is_builtin(char *str)
 		return (1);
 	if (!ft_strcmp(str, "printenv"))
 		return (1);
-	return (0);
-}
-
-int			cancel_color(void)
-{
-	ft_putstr("\x1b[0m");
 	return (0);
 }
 
@@ -69,4 +63,29 @@ void		color_me(int ac, char **av)
 		ft_putstr(str);
 		ft_putstr(" is not available\n");
 	}
+}
+
+char		**get_entry(void)
+{
+	char	*str;
+	char	**entries;
+	int		n;
+
+	str = malloc(sizeof(char) * BUFF_SIZE);
+	n = read(0, str, BUFF_SIZE);
+	if (n > 0)
+		str[n - 1] = '\0';
+	entries = ft_strsplit(str, ';');
+	free(str);
+	return (entries);
+}
+
+int			get_env_size(char ***envpptr)
+{
+	int		i;
+
+	i = 0;
+	while ((*envpptr)[i])
+		i++;
+	return (i);
 }

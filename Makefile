@@ -6,7 +6,7 @@
 #    By: fschuber <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/23 12:50:23 by fschuber          #+#    #+#              #
-#    Updated: 2018/04/23 13:07:33 by fschuber         ###   ########.fr        #
+#    Updated: 2018/04/26 20:14:54 by fschuber         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,6 +19,7 @@ NAME = minishell
 FILES =	ft_sh1.c \
 		utils.c \
 		utils2.c \
+		utils3.c \
 		cd.c \
 
 F_DIR = srcs

@@ -6,21 +6,11 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:19:13 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/26 17:48:02 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:29:45 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
-
-int			get_env_size(char ***envpptr)
-{
-	int		i;
-
-	i = 0;
-	while ((*envpptr)[i])
-		i++;
-	return (i);
-}
 
 void		unset_env(char ***envpptr, char *var)
 {
@@ -33,11 +23,8 @@ void		unset_env(char ***envpptr, char *var)
 	i = -1;
 	j = 0;
 	if (!var)
-	{
 		ft_putstr("unsetenv: Too few arguments.\n");
-		return ;
-	}
-	if (!(tmp = get_env(var, *envpptr)))
+	if (!var || !(tmp = get_env(var, *envpptr)))
 		return ;
 	free(tmp);
 	newenv = malloc(sizeof(char*) * (get_env_size(envpptr) + 1));
