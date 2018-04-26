@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:18:52 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/26 20:28:51 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 21:45:16 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	color_me(int ac, char **av);
 void	builtins(char **cmd, char ***envpptr);
 void	execute(char **entries, char **cmd, char **envp);
 int		is_builtin(char *str);
-int		cancel_color(char **envp, char **cmd, char **entries);
+int		cancel_color_free_shit(char **envp, char **cmd, char **entries);
 int		get_env_size(char ***envpptr);
 char	**get_entry(void);
 int		run_command(char *path, char **cmd, char **envp);

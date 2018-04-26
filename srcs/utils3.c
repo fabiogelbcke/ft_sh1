@@ -6,13 +6,13 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:13:35 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/26 20:28:32 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 22:37:34 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
 
-int			cancel_color(char **envp, char **cmd, char **entries)
+int			cancel_color_free_shit(char **envp, char **cmd, char **entries)
 {
 	ft_putstr("\x1b[0m");
 	ft_free_strarr(cmd);

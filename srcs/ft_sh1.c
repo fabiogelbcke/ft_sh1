@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:44:12 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/26 20:28:29 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 22:13:02 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int					main(int ac, char **av, char **envp)
 
 	envp = copy_env(envp);
 	custom_envp_color(ac, av, envp[0], &envp);
-	while ((entries = NULL))
+	while (!(entries = NULL))
 	{
 		if (!entries || (!*(entries)))
 			ft_putstr("$> ");
