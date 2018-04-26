@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 18:19:13 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/23 13:02:54 by fschuber         ###   ########.fr       */
+/*   Updated: 2018/04/26 17:48:02 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ void		show_env(char **envp)
 	}
 }
 
+char		*get_env_string(char *var, char *value)
+{
+	char	*str;
+
+	str = ft_strappend_free(ft_strdup(var), ft_strdup("="));
+	str = ft_strappend_free(str, ft_strdup(value));
+	return (str);
+}
+
 void		set_env(char ***envpptr, char *var, char *value)
 {
 	int		i;
@@ -109,23 +118,19 @@ void		set_env(char ***envpptr, char *var, char *value)
 			if (!ft_strcmp(split[0], var))
 			{
 				free((*envpptr)[i]);
-				(*envpptr)[i] = ft_strappend_free(ft_strdup(var), ft_strdup("="));
-				(*envpptr)[i] = ft_strappend_free((*envpptr)[i], ft_strdup(value));
+				(*envpptr)[i] = get_env_string(var, value);
 				ft_free_strarr(split);
 				return ;
 			}
 			ft_free_strarr(split);
 		}
+		return ;
 	}
-	else
-	{
-		newenv = (char**)malloc((get_env_size(envpptr) + 2) * sizeof(char *));
-		while ((*envpptr)[++i])
-			newenv[i] = ft_strdup((*envpptr)[i]);
-		newenv[i] = ft_strappend_free(ft_strdup(var), ft_strdup("="));
-		newenv[i] = ft_strappend_free(newenv[i], ft_strdup(value));
-		newenv[i + 1] = NULL;
-		ft_free_strarr(*envpptr);
-		*envpptr = newenv;
-	}
+	newenv = (char**)malloc((get_env_size(envpptr) + 2) * sizeof(char *));
+	while ((*envpptr)[++i])
+		newenv[i] = ft_strdup((*envpptr)[i]);
+	newenv[i] = get_env_string(var, value);
+	newenv[i + 1] = NULL;
+	ft_free_strarr(*envpptr);
+	*envpptr = newenv;
 }

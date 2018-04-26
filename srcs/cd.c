@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/06/07 18:17:25 by fschuber          #+#    #+#             */
-/*   Updated: 2018/04/23 13:24:20 by fschuber         ###   ########.fr       */
+/*   Created: 2018/04/26 17:43:06 by fschuber          #+#    #+#             */
+/*   Updated: 2018/04/26 17:43:40 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
 
-void			cd(char *path, char ***envpptr)
+void		cd(char *path, char ***envpptr)
 {
-	char		*tmp;
+	char	*tmp;
+
 	if (!path)
 		if ((tmp = get_env("HOME", *envpptr)))
 		{
@@ -34,15 +35,7 @@ void			cd(char *path, char ***envpptr)
 	}
 	else
 		path = ft_strdup(path);
-	//else if (ft_strcmp(path, "-") == 0)
-	//	path = get_env("PWD", *envpptr);
 	if (chdir(path) == -1)
-	{
-		free(path);
 		ft_putstr("No such file or directory\n");
-		return ;
-	}
 	free(path);
-	//set_env(envpptr, "OLDPWD", get_env("PWD", *envpptr));
-	//set_env(envpptr, "PWD", path);
 }
